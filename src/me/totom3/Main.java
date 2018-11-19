@@ -30,9 +30,7 @@ public class Main extends Application {
         stage.setTitle("Simple Simulator");
         stage.setScene(scene);
         stage.show();
-		
-		scene.setOnKeyPressed(e -> root.setDisable(false));
-		
+				
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 		executor.scheduleAtFixedRate(engine::tick, 0, engine.getTickDelay(), TimeUnit.MILLISECONDS);
 	}

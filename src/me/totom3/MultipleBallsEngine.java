@@ -12,7 +12,7 @@ public class MultipleBallsEngine extends AbstractEngine {
 
 	private static final int TICK_DELAY = 1;
 	private static final double GRAVITY = 0.0004;
-	private static final double VELOCITY_LOSS = 1;
+	private static final double VELOCITY_LOSS = 0.1;
 	private static final double RADIUS = 30;
 
 	private final GameBall[] balls;
@@ -20,7 +20,7 @@ public class MultipleBallsEngine extends AbstractEngine {
 	public MultipleBallsEngine(Scene scene, Pane pane) {
 		super(scene, pane);
 
-		this.balls = new GameBall[2];
+		this.balls = new GameBall[10];
 
 		Random rand = new Random();
 		for (int i = 0; i < balls.length; ++i) {
@@ -111,14 +111,12 @@ public class MultipleBallsEngine extends AbstractEngine {
 
 			// Find new velocities
 			normal = normal.normalize();
-			Vec2D tangent = new Vec2D(-normal.getY(), normal.getX()).normalize();
-			ball1.velocity = tangent.scale(vel1.dot(tangent)).plus(normal.scale(normal.dot(vel1.plus(vel2))));
-			ball2.velocity = tangent.scale(vel2.dot(tangent)).plus(normal.scale(normal.dot(vel2.plus(vel1).scale(-1))));
+			Vec2D tangent = new Vec2D(-normal.getY(), normal.getX());
+			ball1.velocity = tangent.scale(vel1.dot(tangent)).plus(normal.scale(vel2.dot(normal)));
+			ball2.velocity = tangent.scale(vel2.dot(tangent)).plus(normal.scale(vel1.dot(normal)));
 			ball1.position = ball1.position.plus(ball1.velocity);
 			ball2.position = ball2.position.plus(ball2.velocity);
-			
-			getPane().setDisable(true);
-			System.out.println("Collision! "+vel1+" "+vel2);
+
 			return true;
 		}
 

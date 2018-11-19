@@ -17,9 +17,6 @@ public abstract class AbstractEngine implements GameEngine {
 
 	@Override
 	public final void tick() {
-		if (pane.isDisable()) {
-			return;
-		}
 		tick0();
 		Platform.runLater(this::render);
 	}
